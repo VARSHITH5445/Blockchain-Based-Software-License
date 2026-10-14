@@ -1,0 +1,183 @@
+// Prisma schema for Blockchain-Based Software License Management Platform
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  PUBLISHER
+  CUSTOMER
+}
+
+enum LicenseType {
+  PERPETUAL
+  SUBSCRIPTION
+  TRIAL
+  SEAT_BASED
+}
+
+enum LicenseStatus {
+  ISSUED
+  ACTIVE
+  EXPIRED
+  REVOKED
+}
+
+enum TxStatus {
+  PENDING
+  CONFIRMED
+  FAILED
+}
+
+model User {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  passwordHash  String
+  name          String
+  role          Role      @default(CUSTOMER)
+  walletAddress String?   @unique
+  isActive      Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Relationships
+  publishedProducts SoftwareProduct[]   @relation("PublisherProducts")
+  issuedLicenses    LicenseMetadata[]   @relation("PublisherLicenses")
+  heldLicenses      LicenseMetadata[]   @relation("CustomerLicenses")
+  purchases         LicensePurchase[]
+  auditLogs         AuditLog[]
+
+  @@index([email])
+  @@index([walletAddress])
+  @@index([role])
+}
+
+model SoftwareProduct {
+  id            String    @id @default(uuid())
+  name          String
+  slug          String    @unique
+  description   String
+  category      String    @default("General")
+  version       String    @default("1.0.0")
+  imageUrl      String?
+  publisherId   String
+  isActive      Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Relationships
+  publisher     User              @relation("PublisherProducts", fields: [publisherId], references: [id], onDelete: Cascade)
+  plans         LicensePlan[]
+  licenses      LicenseMetadata[]
+
+  @@index([publisherId])
+  @@index([slug])
+  @@index([category])
+}
+
+model LicensePlan {
+  id            String      @id @default(uuid())
+  productId     String
+  name          String
+  licenseType   LicenseType @default(PERPETUAL)
+  durationDays  Int         @default(0) // 0 for perpetual
+  maxSeats      Int         @default(1)
+  priceDemo     Decimal     @default(0.0) // Demo ETH price
+  isDefault     Boolean     @default(false)
+  createdAt     DateTime    @default(now())
+
+  // Relationships
+  product       SoftwareProduct   @relation(fields: [productId], references: [id], onDelete: Cascade)
+  licenses      LicenseMetadata[]
+
+  @@index([productId])
+}
+
+model LicenseMetadata {
+  id              String         @id @default(uuid())
+  onChainId       Int?           @unique // Smart contract unique uint256 license ID
+  productId       String
+  planId          String
+  publisherId     String
+  customerId      String
+  metadataHash    String         // keccak256 / SHA-256 hash of canonical JSON
+  canonicalJson   String         // Off-chain canonical JSON metadata
+  onChainStatus   LicenseStatus  @default(ISSUED)
+  txHash          String?
+  expirationDate  DateTime?
+  maxSeats        Int            @default(1)
+  currentSeats    Int            @default(0)
+  revocationReason String?
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  // Relationships
+  product         SoftwareProduct  @relation(fields: [productId], references: [id], onDelete: Restrict)
+  plan            LicensePlan      @relation(fields: [planId], references: [id], onDelete: Restrict)
+  publisher       User             @relation("PublisherLicenses", fields: [publisherId], references: [id], onDelete: Restrict)
+  customer        User             @relation("CustomerLicenses", fields: [customerId], references: [id], onDelete: Restrict)
+  purchase        LicensePurchase?
+
+  @@index([onChainId])
+  @@index([publisherId])
+  @@index([customerId])
+  @@index([metadataHash])
+}
+
+model LicensePurchase {
+  id            String          @id @default(uuid())
+  metadataId    String          @unique
+  buyerId       String
+  pricePaid     Decimal
+  txHash        String?
+  status        TxStatus        @default(PENDING)
+  createdAt     DateTime        @default(now())
+
+  // Relationships
+  metadata      LicenseMetadata @relation(fields: [metadataId], references: [id], onDelete: Cascade)
+  buyer         User            @relation(fields: [buyerId], references: [id], onDelete: Cascade)
+
+  @@index([buyerId])
+  @@index([txHash])
+}
+
+model BlockchainTransaction {
+  id            String    @id @default(uuid())
+  txHash        String    @unique
+  blockNumber   Int?
+  fromAddress   String
+  toAddress     String
+  method        String
+  eventName     String?
+  status        TxStatus  @default(CONFIRMED)
+  errorReason   String?
+  createdAt     DateTime  @default(now())
+
+  @@index([txHash])
+  @@index([fromAddress])
+  @@index([toAddress])
+}
+
+model AuditLog {
+  id          String    @id @default(uuid())
+  userId      String?
+  action      String    // e.g., "LICENSE_ISSUED", "LICENSE_REVOKED", "METAMASK_CONNECTED"
+  entityType  String    // "License", "Product", "User"
+  entityId    String?
+  ipAddress   String?
+  details     String?   // JSON representation of event context
+  createdAt   DateTime  @default(now())
+
+  // Relationships
+  user        User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([action])
+  @@index([createdAt])
+}

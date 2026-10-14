@@ -1,0 +1,26 @@
+{
+  "name": "license-blockchain",
+  "version": "1.0.0",
+  "description": "Smart contracts and Hardhat testing suite for Blockchain-Based Software Licensing",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "node": "hardhat node",
+    "deploy:local": "hardhat run scripts/deploy.ts --network localhost",
+    "deploy:hardhat": "hardhat run scripts/deploy.ts --network hardhat"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.0.2"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@types/chai": "^4.3.16",
+    "@types/mocha": "^10.0.6",
+    "@types/node": "^20.12.12",
+    "dotenv": "^16.4.5",
+    "ethers": "^6.13.0",
+    "hardhat": "^2.22.4",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "name": "blockchain-software-license-platform",
+  "version": "1.0.0",
+  "private": true,
+  "description": "B.Tech Final-Year Capstone Project: Blockchain-Based Software License Management and Verification Platform",
+  "scripts": {
+    "install:all": "npm install && npm install --prefix blockchain && npm install --prefix backend && npm install --prefix frontend",
+    "build:all": "npm run compile:contracts && npm run build:backend && npm run build:frontend",
+    "dev:frontend": "npm run dev --prefix frontend",
+    "dev:backend": "npm run dev --prefix backend",
+    "build:frontend": "npm run build --prefix frontend",
+    "build:backend": "npm run build --prefix backend",
+    "test:contracts": "npm run test --prefix blockchain",
+    "compile:contracts": "npm run compile --prefix blockchain",
+    "deploy:local": "npm run deploy:local --prefix blockchain",
+    "test:e2e": "cd backend && npx ts-node src/scripts/testE2E.ts",
+    "prisma:generate": "prisma generate --schema=prisma/schema.prisma",
+    "prisma:push": "prisma db push --schema=prisma/schema.prisma",
+    "prisma:seed": "ts-node prisma/seed.ts"
+  },
+  "keywords": [
+    "blockchain",
+    "software-license",
+    "ethereum",
+    "solidity",
+    "smart-contracts",
+    "drm",
+    "anti-piracy",
+    "web3"
+  ],
+  "author": "Varshith Reddy",
+  "license": "MIT"
+}

@@ -1,0 +1,183 @@
+[
+  {
+    "inputs": [],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "internalType": "uint256", "name": "productId", "type": "uint256" },
+      { "indexed": false, "internalType": "string", "name": "name", "type": "string" },
+      { "indexed": false, "internalType": "string", "name": "version", "type": "string" },
+      { "indexed": false, "internalType": "uint256", "name": "priceWei", "type": "uint256" },
+      { "indexed": false, "internalType": "uint8", "name": "licenseType", "type": "uint8" },
+      { "indexed": true, "internalType": "address", "name": "vendor", "type": "address" }
+    ],
+    "name": "ProductRegistered",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "internalType": "uint256", "name": "licenseId", "type": "uint256" },
+      { "indexed": true, "internalType": "uint256", "name": "productId", "type": "uint256" },
+      { "indexed": true, "internalType": "address", "name": "buyer", "type": "address" },
+      { "indexed": false, "internalType": "uint256", "name": "issueTimestamp", "type": "uint256" },
+      { "indexed": false, "internalType": "uint256", "name": "expiryTimestamp", "type": "uint256" },
+      { "indexed": false, "internalType": "uint256", "name": "pricePaid", "type": "uint256" }
+    ],
+    "name": "LicensePurchased",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "internalType": "uint256", "name": "licenseId", "type": "uint256" },
+      { "indexed": true, "internalType": "bytes32", "name": "deviceFingerprint", "type": "bytes32" },
+      { "indexed": true, "internalType": "address", "name": "owner", "type": "address" },
+      { "indexed": false, "internalType": "uint256", "name": "currentSeatsUsed", "type": "uint256" },
+      { "indexed": false, "internalType": "uint256", "name": "maxSeats", "type": "uint256" }
+    ],
+    "name": "DeviceBound",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "internalType": "uint256", "name": "licenseId", "type": "uint256" },
+      { "indexed": true, "internalType": "bytes32", "name": "deviceFingerprint", "type": "bytes32" },
+      { "indexed": true, "internalType": "address", "name": "owner", "type": "address" }
+    ],
+    "name": "DeviceUnbound",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "internalType": "uint256", "name": "licenseId", "type": "uint256" },
+      { "indexed": true, "internalType": "address", "name": "from", "type": "address" },
+      { "indexed": true, "internalType": "address", "name": "to", "type": "address" }
+    ],
+    "name": "LicenseTransferred",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "internalType": "uint256", "name": "licenseId", "type": "uint256" },
+      { "indexed": false, "internalType": "uint256", "name": "newExpiryTimestamp", "type": "uint256" },
+      { "indexed": false, "internalType": "uint256", "name": "pricePaid", "type": "uint256" }
+    ],
+    "name": "LicenseRenewed",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "internalType": "uint256", "name": "licenseId", "type": "uint256" },
+      { "indexed": false, "internalType": "string", "name": "reason", "type": "string" },
+      { "indexed": true, "internalType": "address", "name": "revokedBy", "type": "address" }
+    ],
+    "name": "LicenseRevoked",
+    "type": "event"
+  },
+  {
+    "inputs": [
+      { "internalType": "string", "name": "name", "type": "string" },
+      { "internalType": "string", "name": "version", "type": "string" },
+      { "internalType": "string", "name": "description", "type": "string" },
+      { "internalType": "uint256", "name": "priceWei", "type": "uint256" },
+      { "internalType": "uint8", "name": "licenseType", "type": "uint8" },
+      { "internalType": "uint256", "name": "durationInSeconds", "type": "uint256" },
+      { "internalType": "uint256", "name": "maxSeatsPerLicense", "type": "uint256" },
+      { "internalType": "uint256", "name": "royaltyBasisPoints", "type": "uint256" }
+    ],
+    "name": "registerProduct",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "uint256", "name": "productId", "type": "uint256" }],
+    "name": "purchaseLicense",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "licenseId", "type": "uint256" },
+      { "internalType": "bytes32", "name": "deviceFingerprint", "type": "bytes32" }
+    ],
+    "name": "bindDevice",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "licenseId", "type": "uint256" },
+      { "internalType": "bytes32", "name": "deviceFingerprint", "type": "bytes32" }
+    ],
+    "name": "unbindDevice",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "to", "type": "address" },
+      { "internalType": "uint256", "name": "licenseId", "type": "uint256" }
+    ],
+    "name": "transferLicense",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "licenseId", "type": "uint256" },
+      { "internalType": "bytes32", "name": "deviceFingerprint", "type": "bytes32" },
+      { "internalType": "address", "name": "user", "type": "address" }
+    ],
+    "name": "verifyLicense",
+    "outputs": [
+      { "internalType": "bool", "name": "isValid", "type": "bool" },
+      { "internalType": "string", "name": "message", "type": "string" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "licenseId", "type": "uint256" },
+      { "internalType": "string", "name": "reason", "type": "string" }
+    ],
+    "name": "revokeLicense",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "uint256", "name": "licenseId", "type": "uint256" }],
+    "name": "renewSubscription",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "user", "type": "address" }],
+    "name": "getUserLicenses",
+    "outputs": [{ "internalType": "uint256[]", "name": "", "type": "uint256[]" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "uint256", "name": "licenseId", "type": "uint256" }],
+    "name": "getBoundDevices",
+    "outputs": [{ "internalType": "bytes32[]", "name": "", "type": "bytes32[]" }],
+    "stateMutability": "view",
+    "type": "function"
+  }
+]

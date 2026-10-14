@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-slate-50 text-slate-900 font-sans antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display tracking-tight text-slate-900;
+  }
+}
+
+@layer components {
+  /* Clean Card */
+  .app-card {
+    @apply bg-white rounded-xl border border-slate-200/80 shadow-sm hover:shadow transition-all duration-200;
+  }
+
+  /* Primary Button */
+  .btn-indigo {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg font-medium text-sm text-white bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500/40 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  /* Secondary Button */
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg font-medium text-sm text-slate-700 bg-white hover:bg-slate-50 active:bg-slate-100 border border-slate-300 shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-slate-400/30 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  /* Danger Button */
+  .btn-danger {
+    @apply inline-flex items-center justify-center gap-2 px-3 py-1.5 rounded-lg font-medium text-xs text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200 transition-all focus:outline-none focus:ring-2 focus:ring-rose-400/30;
+  }
+
+  /* Standard Input */
+  .form-input {
+    @apply w-full px-3.5 py-2.5 rounded-lg border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-600 transition-all;
+  }
+
+  /* Status Badges */
+  .badge-valid {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200;
+  }
+
+  .badge-expiring {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200;
+  }
+
+  .badge-revoked {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-rose-50 text-rose-700 border border-rose-200;
+  }
+
+  .badge-issued {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200;
+  }
+}

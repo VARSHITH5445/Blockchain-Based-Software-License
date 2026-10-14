@@ -1,0 +1,57 @@
+{
+  "address": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+  "network": "Hardhat Localhost",
+  "chainId": 31337,
+  "rpcUrl": "http://127.0.0.1:8545",
+  "deployedAt": "2026-10-14T09:07:47.535Z",
+  "admin": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+  "publisher": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+  "customer": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+  "abi": [
+    "function issueLicense(string productId, address holder, uint8 licenseType, uint256 durationInSeconds, uint256 maxActivations, bytes32 metadataHash) external returns (uint256)",
+    "function activateLicense(uint256 licenseId, bytes32 deviceFingerprint) external",
+    "function deactivateLicense(uint256 licenseId, bytes32 deviceFingerprint) external",
+    "function renewLicense(uint256 licenseId, uint256 additionalDurationInSeconds) external",
+    "function revokeLicense(uint256 licenseId, string reason) external",
+    "function verifyLicense(uint256 licenseId) external view returns (bool isValid, uint8 effectiveStatus, string memory statusMessage, address publisher, address holder, uint256 issueTimestamp, uint256 expirationTimestamp, bytes32 metadataHash)",
+    "function getLicense(uint256 licenseId) external view returns (tuple(uint256 licenseId, string productId, address publisher, address holder, uint256 issueTimestamp, uint256 expirationTimestamp, uint8 licenseType, uint8 status, bytes32 metadataHash, uint256 maxActivations, uint256 currentActivations, string revocationReason))",
+    "function isDeviceAuthorized(uint256 licenseId, bytes32 deviceFingerprint) external view returns (bool)",
+    "function addPublisher(address publisher) external",
+    "function removePublisher(address publisher) external",
+    "function hasRole(bytes32 role, address account) external view returns (bool)",
+    "event LicenseIssued(uint256 indexed licenseId, string productId, address indexed publisher, address indexed holder, uint8 licenseType, uint256 expirationTimestamp, bytes32 metadataHash)",
+    "event LicenseActivated(uint256 indexed licenseId, address indexed holder, bytes32 indexed deviceFingerprint, uint256 currentActivations)",
+    "event LicenseDeactivated(uint256 indexed licenseId, address indexed holder, bytes32 indexed deviceFingerprint, uint256 currentActivations)",
+    "event LicenseRevoked(uint256 indexed licenseId, address indexed revokedBy, string reason)",
+    "event LicenseRenewed(uint256 indexed licenseId, uint256 oldExpiration, uint256 newExpiration)",
+    "event PublisherAuthorized(address indexed publisher)",
+    "event PublisherRevoked(address indexed publisher)"
+  ],
+  "licenses": {
+    "1001": {
+      "status": "VALID",
+      "type": "PERPETUAL",
+      "txHash": "0x3b14303239e4527b7241f62d4c3e72dbeb41e1b64b6922d532feee7edf73828b"
+    },
+    "1002": {
+      "status": "VALID",
+      "type": "SEAT_BASED",
+      "txHash": "0x1b89d81380ac57331d160a0a388a662649d476f4ada52bc02e66e5f44cfd2a72"
+    },
+    "1003": {
+      "status": "VALID",
+      "type": "SUBSCRIPTION",
+      "txHash": "0xaa63e2d26944acb186e349a3885559a1ccd93fc8c23dbb6a57c5155ac4b9788b"
+    },
+    "1004": {
+      "status": "EXPIRED",
+      "type": "SUBSCRIPTION",
+      "txHash": "0x88f80350eef1634c131846722ed682cc6bcdbb787bbe6c8b5d011c0862fadc08"
+    },
+    "1005": {
+      "status": "REVOKED",
+      "type": "SEAT_BASED",
+      "txHash": "0xe011ce5c5c6d55c9152b3fa920d7edd8046c154c5026e6b766ea258364e294ce"
+    }
+  }
+}
